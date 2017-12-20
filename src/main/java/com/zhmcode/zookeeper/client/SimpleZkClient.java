@@ -1,9 +1,11 @@
-package com.zhmcode.zookeeper;
+package com.zhmcode.zookeeper.client;
 
 import org.apache.zookeeper.*;
 import org.apache.zookeeper.data.Stat;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.List;
 
 /**
  * Created by zhm on 2017/12/19.
@@ -18,7 +20,6 @@ public class SimpleZkClient {
 			System.out.println(watchedEvent.toString());
 		}
 	};
-
 	/**
 	 * 初始化zookeeper实例
 	 */
@@ -26,7 +27,6 @@ public class SimpleZkClient {
 	public void init() throws Exception{
 		zkClient = new ZooKeeper(connectString,SimpleZkClient.sessionTimeout,wh);
 	}
-
 	/**
 	 * 创建节点
 	 */
@@ -35,7 +35,6 @@ public class SimpleZkClient {
 		zkClient.create("/z200","i going done !!!".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
 		zkClient.close();
 	}
-
 	/**
 	 * 创建节点
 	 */
@@ -75,4 +74,11 @@ public class SimpleZkClient {
 		zkClient.close();
 	}
 
+	@Test
+	public void getchildrenTest() throws  Exception{
+		List<String> children = zkClient.getChildren("/", null);
+		for(String item : children){
+			System.out.println(item);
+		}
+	}
 }
